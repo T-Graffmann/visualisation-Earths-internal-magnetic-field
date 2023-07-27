@@ -1,0 +1,406 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Code_Bachelorthesis_TW</title><meta name="generator" content="MATLAB 9.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-06-08"><meta name="DC.source" content="Code_Bachelorthesis_TW.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> Code_Bachelorthesis_TW
+<span class="comment">%Code_Bachelorthesis_TW Function providing a snapshot of earth's magnetic</span>
+<span class="comment">%field</span>
+<span class="comment">%   Displays show inclination, declination and the intensities of the</span>
+<span class="comment">%   x-component, y-component, horizontal and vertical components of the</span>
+<span class="comment">%   earth's magnetic field as well as its total field intensity. Data is</span>
+<span class="comment">%   derived</span>
+<span class="comment">%</span>
+<span class="comment">%   The visualisation is generated via the implementation of the mapping</span>
+<span class="comment">%   toolbox</span>
+<span class="comment">%</span>
+<span class="comment">%   see also &lt;https://de.mathworks.com/help/map/getting-started-with-mapping-toolbox.html?s_tid=CRUX_lftnav mapping</span>
+<span class="comment">%   toolbox&gt;, &lt;https://de.mathworks.com/help/map/ref/geoshow.html?searchHighlight=geoshow&amp;s_tid=srchtitle_geoshow_1 geoshow&gt;</span>
+
+<span class="comment">%closes all preexisting figures</span>
+close <span class="string">all</span>;
+
+
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%% Predetermined Coefficients %%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+    <span class="comment">%   Gives info regarding the degree and era of the igrf model data used</span>
+
+    N=13;<span class="comment">%upper degree limit for displayed field</span>
+    gen=25;<span class="comment">%chooses generation for which potential and its derivatives are calculated</span>
+    Nmax=13;<span class="comment">%highest possible degree explored in the model up to date (might change with later versions)</span>
+    loadedTable=<span class="string">'IGRF13OC-2.xlsx'</span>;<span class="comment">% loads in table containing IGRF data</span>
+
+    <span class="comment">%   Gives info regarding radii</span>
+
+    a=6371.2e3;<span class="comment">%standardised referencing radius</span>
+    r=6371.2e3;<span class="comment">%distance centre  to observation point</span>
+    Lat=(90-50.9128283)*pi/180;
+    Long=13.341727*pi/180;
+
+    <span class="comment">%   predetermine Coastal latitudes and longitudes</span>
+    coastlat=[];
+    coastlon=[];
+
+    <span class="comment">%%%%%%%%%%%%%%%%%% Define Linspaces %%%%%%%%%%%%%%%%%%%</span>
+
+    dphi=60;
+    dth=40;
+    phistep=50;
+    thetastep=50;
+
+    LinX=linspace(-pi,pi,phistep);
+    LinY=linspace(pi,0,thetastep);
+
+    Phi = linspace(-pi, pi, phistep);
+    Theta = linspace(pi/20, pi-pi/20, thetastep);
+    sizTheta=size(Theta,2);
+
+
+
+    <span class="keyword">function</span> [BxF,ByF,BzF,Bhor,Btotal,Dc,Ic]=calculations(N,gen,Nmax,loadedTable,a,r,Phi,Theta,sizTheta)
+</pre><pre class="codeinput">    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%% sorting algorithm for g and h %%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+
+    [gpointer,hpointer]=ghPointer(Nmax);
+    Coeff=loadCoeffTable(loadedTable);
+    Coeff=table2array(Coeff(:,4:gen+3));<span class="comment">%ATTENTION column 3 contains m</span>
+</pre><pre class="codeinput">    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%% calculation of Legendre Polynomials and x,y and z components of magn. field %%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+    Pnm=buildPnm(Nmax,Theta,sizTheta);<span class="comment">%building all associated Legendre polynomials (attention saved in 1 row array)</span>
+    dPnm=derPnmNew(Pnm,Nmax,Theta,sizTheta);<span class="comment">%creating theta derivatives of all Schmidt semi-normalised associated Legendre Polynomials and saving them on a 1D array</span>
+
+    BxF=BuildBX(dPnm,Coeff,Theta,sizTheta,Nmax,gpointer,hpointer,gen);
+    ByF=BuildBY(Pnm,Coeff,Theta,sizTheta,Nmax,gpointer,hpointer,gen);
+    BzF=BuildBZ(-Pnm,Coeff,sizTheta,Nmax,gpointer,hpointer,gen);
+</pre><pre class="codeinput">    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%% load in A, R and phi into B %%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+    <span class="comment">%   loads in A and R</span>
+    BxF=LoadARtoB(BxF,a,r);
+    ByF=LoadARtoB(ByF,a,r);
+    BzF=LoadARtoB(BzF,a,r);
+
+    <span class="comment">%   loads in Phi</span>
+    BxF=loadPhiToB(BxF,Phi);
+    ByF=loadPhiToB(ByF,Phi);
+    BzF=loadPhiToB(BzF,Phi);
+
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%% Calculate horizontal, total Field intensity and Decl. and Incl.  %%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+    <span class="comment">%   calculate total field intensity</span>
+    Btotal=totalF(BxF,ByF,BzF);
+
+    <span class="comment">%   calculate horizontal field intensity</span>
+    Bhor=Bhorizontal(BxF,ByF);
+
+    <span class="comment">%   Calculation for declination (Dc) and inclination (Ic)</span>
+    Dc=atan(ByF./sqrt((BxF).^2+(ByF).^2))*180/pi;
+    Ic=atan(BzF./sqrt((BxF).^2+(ByF).^2))*180/pi;
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+
+    [BxF,ByF,BzF,Bhor,Btotal,Dc,Ic]=calculations(N,gen,Nmax,loadedTable,a,r,Phi,Theta,sizTheta);
+
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%% create displays %%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+
+    <span class="comment">%   general data for the display</span>
+    X=(Phi)*180/pi;
+    Y=(Theta-pi/2)*180/pi;
+
+    <span class="comment">%create data for geospatial referencing</span>
+
+    <span class="comment">%   Lon-Lat raster for world display</span>
+    XLon=repelem(X,length(Y),1);    <span class="comment">% Longitude for georeferencing derived from X</span>
+    YLat=repelem(-Y.',1,length(X)); <span class="comment">% Latitude for georeferencing derived from Y</span>
+
+    <span class="comment">%   data preperation for georeferenced view (flip along equator)</span>
+    GDATAic=flipud(double(Ic));
+    GDATAdc=flipud(double(Dc));
+    GDATAX=flipud(double(BxF));
+    GDATAY=flipud(double(ByF));
+    GDATAZ=flipud(double(BzF));
+    GDATAhor=flipud(double(Bhor));
+    GDATAT=flipud(double(Btotal));
+
+    Zero=zeros(length(Phi),length(Theta));  <span class="comment">% matrix of zeroes to push displayed intensities into the background</span>
+
+    load <span class="string">coastlines</span>
+
+    <span class="comment">%   DISPLAY: INCLINATION</span>
+    titlestring=<span class="string">'Inclination in [&deg;]'</span>;
+    DISPLAY(YLat,XLon,GDATAic,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: DECLINATION</span>
+    titlestring=<span class="string">'Declination in [&deg;]'</span>;
+    DISPLAY(YLat,XLon,GDATAdc,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: X-COMPONENT FIELD INTENSITY</span>
+    titlestring=<span class="string">'Intensity along Longitude in [nT]'</span>;
+    DISPLAY(YLat,XLon,GDATAX,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: Y-COMPONENT FIELD INTENSITY</span>
+    titlestring=<span class="string">'Intensity along Latitude in [nT]'</span>;
+    DISPLAY(YLat,XLon,GDATAY,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: Z-COMPONENT FIELD INTENSITY</span>
+    titlestring=<span class="string">'vertical Intensity in [nT]'</span>;
+    DISPLAY(YLat,XLon,GDATAZ,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: HORIZONTAL COMPONENT FIELD INTENSITY</span>
+    titlestring=<span class="string">'horizontal Intensity in [nT]'</span>;
+    DISPLAY(YLat,XLon,GDATAhor,coastlon,coastlat,Zero,titlestring)
+
+    <span class="comment">%   DISPLAY: TOTAL FIELD INTENSITY#</span>
+    titlestring=<span class="string">'total Intensity in [nT]'</span>;
+    DISPLAY(YLat,XLon,GDATAT,coastlon,coastlat,Zero,titlestring)
+    <span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function Code_Bachelorthesis_TW
+%Code_Bachelorthesis_TW Function providing a snapshot of earth's magnetic
+%field
+%   Displays show inclination, declination and the intensities of the
+%   x-component, y-component, horizontal and vertical components of the
+%   earth's magnetic field as well as its total field intensity. Data is
+%   derived
+%   
+%   The visualisation is generated via the implementation of the mapping
+%   toolbox 
+%
+%   see also <https://de.mathworks.com/help/map/getting-started-with-mapping-toolbox.html?s_tid=CRUX_lftnav mapping
+%   toolbox>, <https://de.mathworks.com/help/map/ref/geoshow.html?searchHighlight=geoshow&s_tid=srchtitle_geoshow_1 geoshow>
+
+%closes all preexisting figures
+close all;
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%% Predetermined Coefficients %%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %   Gives info regarding the degree and era of the igrf model data used
+    
+    N=13;%upper degree limit for displayed field
+    gen=25;%chooses generation for which potential and its derivatives are calculated
+    Nmax=13;%highest possible degree explored in the model up to date (might change with later versions)
+    loadedTable='IGRF13OC-2.xlsx';% loads in table containing IGRF data
+    
+    %   Gives info regarding radii
+    
+    a=6371.2e3;%standardised referencing radius
+    r=6371.2e3;%distance centre  to observation point
+    Lat=(90-50.9128283)*pi/180;
+    Long=13.341727*pi/180;
+    
+    %   predetermine Coastal latitudes and longitudes
+    coastlat=[];
+    coastlon=[];
+
+    %%%%%%%%%%%%%%%%%% Define Linspaces %%%%%%%%%%%%%%%%%%%
+    
+    dphi=60;
+    dth=40;
+    phistep=50;
+    thetastep=50;
+    
+    LinX=linspace(-pi,pi,phistep);
+    LinY=linspace(pi,0,thetastep);
+    
+    Phi = linspace(-pi, pi, phistep);
+    Theta = linspace(pi/20, pi-pi/20, thetastep);
+    sizTheta=size(Theta,2);
+    
+    
+      
+    function [BxF,ByF,BzF,Bhor,Btotal,Dc,Ic]=calculations(N,gen,Nmax,loadedTable,a,r,Phi,Theta,sizTheta)
+
+   
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%% sorting algorithm for g and h %%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    
+    [gpointer,hpointer]=ghPointer(Nmax);
+    Coeff=loadCoeffTable(loadedTable);
+    Coeff=table2array(Coeff(:,4:gen+3));%ATTENTION column 3 contains m
+    
+    %%
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%% calculation of Legendre Polynomials and x,y and z components of magn. field %%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+    Pnm=buildPnm(Nmax,Theta,sizTheta);%building all associated Legendre polynomials (attention saved in 1 row array)
+    dPnm=derPnmNew(Pnm,Nmax,Theta,sizTheta);%creating theta derivatives of all Schmidt semi-normalised associated Legendre Polynomials and saving them on a 1D array 
+    
+    BxF=BuildBX(dPnm,Coeff,Theta,sizTheta,Nmax,gpointer,hpointer,gen);
+    ByF=BuildBY(Pnm,Coeff,Theta,sizTheta,Nmax,gpointer,hpointer,gen);
+    BzF=BuildBZ(-Pnm,Coeff,sizTheta,Nmax,gpointer,hpointer,gen);
+             
+    %%
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% load in A, R and phi into B %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %   loads in A and R
+    BxF=LoadARtoB(BxF,a,r);
+    ByF=LoadARtoB(ByF,a,r);
+    BzF=LoadARtoB(BzF,a,r);
+    
+    %   loads in Phi
+    BxF=loadPhiToB(BxF,Phi);
+    ByF=loadPhiToB(ByF,Phi);
+    BzF=loadPhiToB(BzF,Phi);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%% Calculate horizontal, total Field intensity and Decl. and Incl.  %%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %   calculate total field intensity
+    Btotal=totalF(BxF,ByF,BzF);
+
+    %   calculate horizontal field intensity
+    Bhor=Bhorizontal(BxF,ByF);
+
+    %   Calculation for declination (Dc) and inclination (Ic)
+    Dc=atan(ByF./sqrt((BxF).^2+(ByF).^2))*180/pi;
+    Ic=atan(BzF./sqrt((BxF).^2+(ByF).^2))*180/pi;
+    end
+    
+    [BxF,ByF,BzF,Bhor,Btotal,Dc,Ic]=calculations(N,gen,Nmax,loadedTable,a,r,Phi,Theta,sizTheta);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% create displays %%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+
+
+    %   general data for the display
+    X=(Phi)*180/pi;
+    Y=(Theta-pi/2)*180/pi;  
+    
+    %create data for geospatial referencing
+
+    %   Lon-Lat raster for world display 
+    XLon=repelem(X,length(Y),1);    % Longitude for georeferencing derived from X
+    YLat=repelem(-Y.',1,length(X)); % Latitude for georeferencing derived from Y
+
+    %   data preperation for georeferenced view (flip along equator)
+    GDATAic=flipud(double(Ic));
+    GDATAdc=flipud(double(Dc));
+    GDATAX=flipud(double(BxF));
+    GDATAY=flipud(double(ByF));
+    GDATAZ=flipud(double(BzF));
+    GDATAhor=flipud(double(Bhor));
+    GDATAT=flipud(double(Btotal));
+    
+    Zero=zeros(length(Phi),length(Theta));  % matrix of zeroes to push displayed intensities into the background
+    
+    load coastlines
+
+    %   DISPLAY: INCLINATION
+    titlestring='Inclination in [°]';
+    DISPLAY(YLat,XLon,GDATAic,coastlon,coastlat,Zero,titlestring)
+
+    %   DISPLAY: DECLINATION
+    titlestring='Declination in [°]';
+    DISPLAY(YLat,XLon,GDATAdc,coastlon,coastlat,Zero,titlestring)  
+
+    %   DISPLAY: X-COMPONENT FIELD INTENSITY
+    titlestring='Intensity along Longitude in [nT]';
+    DISPLAY(YLat,XLon,GDATAX,coastlon,coastlat,Zero,titlestring)  
+
+    %   DISPLAY: Y-COMPONENT FIELD INTENSITY
+    titlestring='Intensity along Latitude in [nT]';
+    DISPLAY(YLat,XLon,GDATAY,coastlon,coastlat,Zero,titlestring) 
+
+    %   DISPLAY: Z-COMPONENT FIELD INTENSITY
+    titlestring='vertical Intensity in [nT]';
+    DISPLAY(YLat,XLon,GDATAZ,coastlon,coastlat,Zero,titlestring)
+    
+    %   DISPLAY: HORIZONTAL COMPONENT FIELD INTENSITY
+    titlestring='horizontal Intensity in [nT]';
+    DISPLAY(YLat,XLon,GDATAhor,coastlon,coastlat,Zero,titlestring)
+    
+    %   DISPLAY: TOTAL FIELD INTENSITY#
+    titlestring='total Intensity in [nT]';
+    DISPLAY(YLat,XLon,GDATAT,coastlon,coastlat,Zero,titlestring)
+    end
+
+##### SOURCE END #####
+--></body></html>
